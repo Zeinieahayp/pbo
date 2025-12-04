@@ -14,7 +14,21 @@ initial-scale=1.0">
  document.getElementById("title").innerText = "Teks telah 
 berubah!";
  }
- </script>
+
+ import { useState } from "react";
+ function App() {
+ const [text, setText] = useState("Halo, 
+Mahasiswa!");
+ return (
+ <div>
+ <h1>{text}</h1>
+ <button onClick={() => setText("Teks telah 
+berubah!")}>Klik Saya</button>
+ </div>
+ );
+ }
+ export default App;
+
+  </script>
  </body>
  </html>
-
