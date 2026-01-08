@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Login Imut</title>
+
+  <!-- Font lucu -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ffd6e8, #cce7ff);
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .box {
+      background: #ffffff;
+      padding: 32px 26px;
+      width: 320px;
+      border-radius: 24px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+      text-align: center;
+      animation: pop 0.4s ease;
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(0.9);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    h2 {
+      margin-bottom: 10px;
+      color: #ff6fae;
+    }
+
+    p {
+      font-size: 14px;
+      color: #666;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 14px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #ff9acb;
+      box-shadow: 0 0 0 2px rgba(255,154,203,0.3);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: 0.2s;
+    }
+
+    #loginBtn {
+      background: linear-gradient(90deg, #ff9acb, #8fd3f4);
+      color: white;
+      margin-top: 12px;
+    }
+
+    #loginBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    }
+
+    #cancelBtn {
+      margin-top: 8px;
+      background: #f5f5f5;
+      color: #777;
+    }
+
+    #logoutBtn {
+      margin-top: 15px;
+      background: linear-gradient(90deg, #ff7b7b, #ff5252);
+      color: white;
+    }
+
+    .emoji {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .user-info p {
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box" id="app"></div>
+
+  <script>
+    class LoginApp {
+      constructor(containerId) {
+        this.container = document.getElementById(containerId);
+        this.initData();
+        this.renderLogin();
+      }
+
+      initData() {
+        if (!localStorage.getItem('users')) {
+          const users = [
+            { username: 'admin', password: '12345' },
+            { username: 'user', password: 'user123' }
+          ];
+          localStorage.setItem('users', JSON.stringify(users));
+        }
+      }
+
+      renderLogin() {
+        this.container.innerHTML = `
+          <div class="emoji">🐰</div>
+          <h2>Login Yuk!</h2>
+          <p>Masuk dulu yaa ✨</p>
+          <input type="text" id="username" placeholder="Username 💕">
+          <input type="password" id="password" placeholder="Password 🔒">
+          <button id="loginBtn">Login 💖</button>
+          <button id="cancelBtn">Cancel</button>
+        `;
+
+        document.getElementById('loginBtn')
+          .addEventListener('click', () => this.login());
+
+        document.getElementById('cancelBtn')
+          .addEventListener('click', () => this.cancel());
+      }
+
+      login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        const users = JSON.parse(localStorage.getItem('users'));
+        const found = users.find(
+          user => user.username === username && user.password === password
+        );
+
+        if (!found) {
+          alert('Ehh salah 😿 coba lagi yaa');
+        } else {
+          this.renderUserPage(found.username);
+        }
+      }
+
+      renderUserPage(username) {
+        this.container.innerHTML = `
+          <div class="emoji">🎉</div>
+          <h2>Yay berhasil!</h2>
+          <p>Hai <b>${username}</b> 💕<br>Selamat datang yaa</p>
+          <button id="logoutBtn">Logout</button>
+        `;
+
+        document.getElementById('logoutBtn')
+          .addEventListener('click', () => this.logout());
+      }
+
+      logout() {
+        this.renderLogin();
+      }
+
+      cancel() {
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+      }
+    }
+
+    new LoginApp('app');
+  </script>
+</body>
+</html>
