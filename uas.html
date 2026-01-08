@@ -2,9 +2,8 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Login Imut</title>
+  <title>Login</title>
 
-  <!-- Font lucu -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -39,14 +38,9 @@
       }
     }
 
-    h2 {
+    .emoji {
+      font-size: 32px;
       margin-bottom: 10px;
-      color: #ff6fae;
-    }
-
-    p {
-      font-size: 14px;
-      color: #666;
     }
 
     input {
@@ -97,15 +91,6 @@
       background: linear-gradient(90deg, #ff7b7b, #ff5252);
       color: white;
     }
-
-    .emoji {
-      font-size: 32px;
-      margin-bottom: 8px;
-    }
-
-    .user-info p {
-      margin-bottom: 12px;
-    }
   </style>
 </head>
 
@@ -116,28 +101,15 @@
     class LoginApp {
       constructor(containerId) {
         this.container = document.getElementById(containerId);
-        this.initData();
         this.renderLogin();
-      }
-
-      initData() {
-        if (!localStorage.getItem('users')) {
-          const users = [
-            { username: 'Zeini', password: 'Zei07' },
-            { username: 'Zeini', password: 'Zei07' }
-          ];
-          localStorage.setItem('users', JSON.stringify(users));
-        }
       }
 
       renderLogin() {
         this.container.innerHTML = `
           <div class="emoji">🐰</div>
-          <h2>Login Yuk!</h2>
-          <p>Masuk dulu yaa ✨</p>
-          <input type="text" id="username" placeholder="Username 💕">
-          <input type="password" id="password" placeholder="Password 🔒">
-          <button id="loginBtn">Login 💖</button>
+          <input type="text" id="username" placeholder="Username">
+          <input type="password" id="password" placeholder="Password">
+          <button id="loginBtn">Login</button>
           <button id="cancelBtn">Cancel</button>
         `;
 
@@ -152,23 +124,17 @@
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        const users = JSON.parse(localStorage.getItem('users'));
-        const found = users.find(
-          user => user.username === username && user.password === password
-        );
-
-        if (!found) {
-          alert('Ehh salah 😿 coba lagi yaa');
+        if (username === 'Zeini' && password === 'Amy07') {
+          this.renderUserPage(username);
         } else {
-          this.renderUserPage(found.username);
+          alert('Username atau password salah 😿');
         }
       }
 
       renderUserPage(username) {
         this.container.innerHTML = `
-          <div class="emoji">🎉</div>
-          <h2>Yay berhasil!</h2>
-          <p>Hai <b>${username}</b> 💕<br>Selamat datang yaa</p>
+          <div class="emoji">✨</div>
+          <p>Hai <b>${username}</b> 💕</p>
           <button id="logoutBtn">Logout</button>
         `;
 
